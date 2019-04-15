@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build-client": "cd client && yarn build"
+    "build-client": "cd client && yarn build",
+    "build-db": "sequelize db:create && sequelize db:migrate",
+    "rebuild-db": "sequelize db:drop && sequelize db:create && sequelize db:migrate",
+    "seed-db": "sequelize db:seed:all"
   },
   "dependencies": {
     "dotenv": "^7.0.0",
