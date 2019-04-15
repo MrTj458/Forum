@@ -13,7 +13,8 @@ app.use(bodyParser.json())
 const UsersController = require('./controllers/UsersController')
 
 // Route setup
-app.use('/users', UsersController)
+app.use('/', express.static('public'))
+app.use('users', UsersController)
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`)
