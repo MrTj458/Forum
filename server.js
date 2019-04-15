@@ -9,9 +9,11 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Success!' })
-})
+// Controller imports
+const UsersController = require('./controllers/UsersController')
+
+// Route setup
+app.use('/users', UsersController)
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`)

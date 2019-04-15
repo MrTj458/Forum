@@ -1,0 +1,25 @@
+GET http://localhost:3001/users/
+
+###
+
+POST http://localhost:3001/users
+Content-Type: application/json
+
+{
+  "email": "email",
+  "userName": "user name",
+  "password": "password"
+}
+
+###
+
+PUT http://localhost:3001/users/1
+Content-Type: application/json
+
+{
+  "userName": "Updated"
+}
+
+###
+
+DELETE http://localhost:3001/users/1
