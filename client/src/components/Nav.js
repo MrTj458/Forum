@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 
 const Nav = () => {
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link to="/" class="navbar-brand">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <Link to="/" className="navbar-brand">
         Forum
       </Link>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNav"
@@ -16,17 +16,17 @@ const Nav = () => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon" />
+        <span className="navbar-toggler-icon" />
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <Link to="/users" class="nav-link">
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link to="/users" className="nav-link">
               Users
             </Link>
           </li>
-          <li class="nav-item">
-            <Link to="/about" class="nav-link">
+          <li className="nav-item">
+            <Link to="/about" className="nav-link">
               About
             </Link>
           </li>
