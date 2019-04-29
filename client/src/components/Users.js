@@ -1,28 +1,26 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-class Users extends Component {
-  state = { users: [] };
+const Users = () => {
+  const [users, setUsers] = useState([]);
 
-  componentDidMount() {
-    axios.get("/api/users").then(data => this.setState({ users: data.data }));
-  }
+  useEffect(() => {
+    axios.get("/api/users").then(res => setUsers(res.data));
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <ul>
-          {this.state.users.map(user => {
-            return (
-              <li key={user.id}>
-                {user.email} {user.userName}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <ul>
+        {users.map(user => {
+          return (
+            <li key={user.id}>
+              {user.email} {user.userName}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
 export default Users;
