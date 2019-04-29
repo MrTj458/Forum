@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from 'react'
-import { Route, Switch } from 'react-router-dom'
-import NotFound from './NotFound'
-import Nav from './Nav'
-import Home from './Home'
-import Users from './Users'
-import About from './About'
+import React, { Component, Fragment } from "react";
+import { Route, Switch } from "react-router-dom";
+import NotFound from "./NotFound";
+import Nav from "./Nav";
+import Home from "./Home";
+import Users from "./Users";
+import About from "./About";
 
 class App extends Component {
   render() {
@@ -21,8 +21,8 @@ class App extends Component {
           </Switch>
         </div>
       </Fragment>
-    )
+    );
   }
 }
 
-export default App
+export default App;
