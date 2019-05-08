@@ -1,10 +1,10 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import NotFound from "./NotFound";
-import Nav from "./Nav";
-import Home from "./Home";
-import Users from "./Users";
-import About from "./About";
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import NotFound from './NotFound'
+import Nav from './Nav'
+import Home from './Home'
+import Users from './Users'
+import About from './About'
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
         </Switch>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

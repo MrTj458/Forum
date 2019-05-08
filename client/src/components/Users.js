@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
-    axios.get("/api/users").then(res => setUsers(res.data));
-  }, []);
+    axios.get('/api/users').then(res => setUsers(res.data))
+  }, [])
 
   return (
     <div>
@@ -16,11 +16,11 @@ const Users = () => {
             <li key={user.id}>
               {user.email} {user.userName}
             </li>
-          );
+          )
         })}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Users;
+export default Users

@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb-base", "prettier"],
+  "extends": ["airbnb", "prettier"],
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": [
@@ -11,6 +11,14 @@
         "semi": false
       }
     ],
-    "no-console": "off"
+    "no-console": "off",
+    "react/jsx-filename-extension": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "no-underscore-dangle": "off",
+    "global-require": "off"
+  },
+  "env": {
+    "browser": true,
+    "node": true
   }
 }

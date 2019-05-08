@@ -36,12 +36,5 @@
     "not op_mini all"
   ],
   "proxy": "http://localhost:3001",
-  "devDependencies": {
-    "eslint-config-prettier": "^4.2.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "husky": "^2.2.0",
-    "lint-staged": "^8.1.6",
-    "prettier": "^1.17.0",
-    "pretty-quick": "^1.10.0"
-  }
+  "devDependencies": {}
 }
