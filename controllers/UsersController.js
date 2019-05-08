@@ -1,11 +1,11 @@
 const express = require('express')
-const router = express.Router()
-
 const Sequelize = require('sequelize')
-const Op = Sequelize.Op
+
+const router = express.Router()
+const { Op } = Sequelize
 
 // Model imports
-const User = require('../models').User
+const { User } = require('../models')
 
 /**
  * Get all users
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   // Find users
   const users = await User.findAll({ attributes: { exclude: 'password' } })
 
-  //Return users
+  // Return users
   res.json(users)
 })
 

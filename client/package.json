@@ -2,6 +2,16 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "lint-staged": {
+    "*.{html,css}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.8.6",
@@ -19,12 +29,6 @@
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "plugin:prettier/recommended"
-    ]
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -35,7 +39,8 @@
   "devDependencies": {
     "eslint-config-prettier": "^4.2.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "husky": "^2.1.0",
+    "husky": "^2.2.0",
+    "lint-staged": "^8.1.6",
     "prettier": "^1.17.0",
     "pretty-quick": "^1.10.0"
   }
