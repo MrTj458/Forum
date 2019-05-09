@@ -1,8 +1,9 @@
 const express = require('express')
-const Sequelize = require('sequelize')
+const { check, validationResult } = require('express-validator/check')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const router = express.Router()
-const { Op } = Sequelize
 
 // Model imports
 const { User } = require('../models')
@@ -44,31 +45,73 @@ router.get('/:id', async (req, res) => {
 /**
  * Create a new user
  */
-router.post('/', async (req, res) => {
-  // Check for existing user with inputted email or user name
-  const user = await User.findOne({
-    where: {
-      [Op.or]: [{ email: req.body.email }, { userName: req.body.userName }],
-    },
-  })
+router.post(
+  '/',
+  [
+    check('email', 'Email is required').isEmail(),
+    check('userName', 'User name must be at least 2 characters').isLength({
+      min: 2,
+    }),
+    check('password', 'Password must be 6 or more characters').isLength({
+      min: 6,
+    }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req)
 
-  if (user) {
-    if (user.email === req.body.email) {
-      // Email already in use
-      return res.status(400).json({ email: 'Email already in use.' })
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() })
     }
-    // User name already in use
-    return res.status(400).json({ userName: 'User name already taken.' })
+
+    const { userName, email, password } = req.body
+
+    try {
+      let user = await User.findOne({
+        where: { email },
+      })
+
+      if (user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'This email is already in use' }] })
+      }
+
+      user = await User.findOne({
+        where: { userName },
+      })
+
+      if (user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'This user name is already in use' }] })
+      }
+
+      user = new User()
+      user.email = email
+      user.userName = userName
+
+      const salt = await bcrypt.genSalt(10)
+      user.password = await bcrypt.hash(password, salt)
+
+      await user.save()
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      }
+
+      const token = await jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: 3600,
+      })
+
+      return res.json(token)
+    } catch (err) {
+      console.error(err)
+      return res.status(500).send('Server Error')
+    }
   }
-  // Create the new user
-  const newUser = await User.create(req.body)
-
-  // Remove password before sending back user
-  newUser.password = ''
-
-  // Return the new user
-  return res.status(201).json(newUser)
-})
+)
 
 /**
  * Update an existing user

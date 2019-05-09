@@ -8,11 +8,9 @@ const app = express()
 
 app.use(express.json({ extended: false }))
 
-// Controller imports
-const UsersController = require('./controllers/UsersController')
-
 // Route setup
-app.use('/api/users', UsersController)
+app.use('/api/auth', require('./controllers/AuthController'))
+app.use('/api/users', require('./controllers/UsersController'))
 
 // Send react app when not accessing api
 app.use(express.static(path.resolve(__dirname, 'client', 'build')))
