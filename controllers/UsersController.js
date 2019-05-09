@@ -84,24 +84,29 @@ router.post(
  * Get a single user by id or user name
  */
 router.get('/:id', async (req, res) => {
-  // Find user
-  const user = await User.findOne({
-    where: !isNaN(req.params.id)
-      ? { id: req.params.id }
-      : { userName: req.params.id },
-    attributes: {
-      exclude: ['password', 'email'],
-    },
-  })
+  try {
+    // Find user
+    const user = await User.findOne({
+      where: !isNaN(req.params.id)
+        ? { id: req.params.id }
+        : { userName: req.params.id },
+      attributes: {
+        exclude: ['password', 'email'],
+      },
+    })
 
-  // Check if a user was found
-  if (!user) {
-    // Return a not found message
-    return res.status(404).json({ error: 'No user found' })
+    // Check if a user was found
+    if (!user) {
+      // Return a not found message
+      return res.status(404).json({ error: 'No user found' })
+    }
+
+    // Return the user
+    return res.json(user)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send('Server Error')
   }
-
-  // Return the user
-  return res.json(user)
 })
 
 /**
