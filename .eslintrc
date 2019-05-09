@@ -15,7 +15,8 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-one-expression-per-line": "off",
     "no-underscore-dangle": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "no-restricted-globals": "off"
   },
   "env": {
     "browser": true,

@@ -2,6 +2,7 @@ const express = require('express')
 const { check, validationResult } = require('express-validator/check')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const auth = require('../middleware/auth')
 
 const router = express.Router()
 
@@ -9,41 +10,7 @@ const router = express.Router()
 const { User } = require('../models')
 
 /**
- * Get all users
- */
-router.get('/', async (req, res) => {
-  // Find users
-  const users = await User.findAll({ attributes: { exclude: 'password' } })
-
-  // Return users
-  return res.json(users)
-})
-
-/**
- * Get a single user by id
- */
-router.get('/:id', async (req, res) => {
-  // Find user
-  const user = await User.findOne({
-    where: {
-      id: req.params.id,
-    },
-    attributes: {
-      exclude: 'password',
-    },
-  })
-
-  // Check if a user was found
-  if (!user) {
-    // Return a not found message
-    return res.status(404).json({ error: 'No user found' })
-  }
-  // Return the user
-  return res.json(user)
-})
-
-/**
- * Create a new user
+ * Register User
  */
 router.post(
   '/',
@@ -114,31 +81,65 @@ router.post(
 )
 
 /**
+ * Get a single user by id or user name
+ */
+router.get('/:id', async (req, res) => {
+  // Find user
+  const user = await User.findOne({
+    where: !isNaN(req.params.id)
+      ? { id: req.params.id }
+      : { userName: req.params.id },
+    attributes: {
+      exclude: ['password', 'email'],
+    },
+  })
+
+  // Check if a user was found
+  if (!user) {
+    // Return a not found message
+    return res.status(404).json({ error: 'No user found' })
+  }
+
+  // Return the user
+  return res.json(user)
+})
+
+/**
  * Update an existing user
  */
-router.put('/:id', async (req, res) => {
-  // Find the user to update
-  const user = await User.findOne({ where: { id: req.params.id } })
+router.put('/', auth, async (req, res) => {
+  try {
+    // Find the user to update
+    const user = await User.findOne({ where: { id: req.user.id } })
 
-  // Update the user
-  const updatedUser = await user.update(req.body)
+    // Update the user
+    const updatedUser = await user.update(req.body)
 
-  // Remove password before sending back user
-  updatedUser.password = ''
+    // Remove password before sending back user
+    updatedUser.password = ''
 
-  // Return the updated user
-  return res.json(updatedUser)
+    // Return the updated user
+    return res.json(updatedUser)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send('Server Error')
+  }
 })
 
 /**
  * Delete a user by id
  */
-router.delete('/:id', async (req, res) => {
-  // Delete the user
-  await User.destroy({ where: { id: req.params.id } })
+router.delete('/', auth, async (req, res) => {
+  try {
+    // Delete the user
+    await User.destroy({ where: { id: req.user.id } })
 
-  // Return a success status
-  return res.status(204).json()
+    // Return a success status
+    return res.status(204).json()
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send('Server Error')
+  }
 })
 
 module.exports = router
